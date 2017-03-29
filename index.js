@@ -184,7 +184,7 @@ var webapiModule = (function () {
                         var returned = JSON.parse(this.responseText).value;
                         callback(returned);
                         if (returned.__next !== null && oncomplete !== null) {
-                            common.odataAsync.retrievemultiplerecords(null, decodeURI(returned.__next), callback, oncomplete);
+                            common.webapi.retrievemultiplerecords(null, decodeURI(returned.__next), callback, oncomplete);
                         }
                         else { try { oncomplete(); } catch (e) { } }
                     }
