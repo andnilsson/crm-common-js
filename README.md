@@ -3,15 +3,20 @@ Common library för att skriva javascript mot crm
 Fungerar med es5/es6/es7 och typescript
 
 ###installation
-1.Kopiera, git-clona eller intstallera via npm
-2.Ladda upp till dyn365
+1. Kopiera, git-clona eller intstallera via npm
+2. Ladda upp till dyn365
 ##npm
+```
 npm install crm-common-js --save
+```
+
 ##git
+```
 git clone https://tfs.stratiteq.se/tfs/Stratiteq/Internal/_git/CRM
+```
 
 ###Komplett definition av alla funktioner, dess parametrar och returtyper
-[Se typescript difinition filen](https://tfs.stratiteq.se/tfs/Stratiteq/Internal/_git/CRM?path=%2Fcrm-common-js.d.ts&version=GBmaster&_a=contents)
+[Se typescript definition-filen](https://tfs.stratiteq.se/tfs/Stratiteq/Internal/_git/CRM?path=%2Fcrm-common-js.d.ts&version=GBmaster&_a=contents)
 
 ###versioner
 Så småningom kommer en flik med releaser finnas tillgängligt.
@@ -20,16 +25,16 @@ Just nu gör det inte det, och senaste versionen av master kommer att passa till
 
 ###uppbyggnad
 Är konstruerad i ett antal moduler:
-*common
-    *Xrm
-    *webapi
-    *optionset
-    *fields
-    *form
-    *general
-    *user
-    *adaljs
-    *events
+-common
+  -Xrm
+  -webapi
+  -optionset
+  -fields
+  -form
+  -general
+  -user
+  -adaljs
+  -events
 
 Nedan följer förklaringar på övergripande nivå för varje modul
 
