@@ -26,7 +26,7 @@ var eventModule = (function () {
 var webapiModule = (function () {
     var my = {};
     my.updaterecord = function (entityid, entityobject, odatasetname, callback) {
-        if (common.Xrm.get().isLocalhost) {
+        if (common.Xrm.get().isLocalhost && window.location.hostname.indexOf('localhost') > -1) {
             callback();
             return;
         }
@@ -50,7 +50,7 @@ var webapiModule = (function () {
         }
     }
     my.updaterecordsingleproperty = function (entityid, propertyname, value, odatasetname, callback) {
-        if (common.Xrm.get().isLocalhost) {
+        if (common.Xrm.get().isLocalhost && window.location.hostname.indexOf('localhost') > -1) {
             callback();
             return;
         }
@@ -78,7 +78,7 @@ var webapiModule = (function () {
         }
     }
     my.createrecord = function (entityObject, odataSetName, callback, returnRepresentation, errorcallback) {
-        if (common.Xrm.get().isLocalhost) {
+        if (common.Xrm.get().isLocalhost && window.location.hostname.indexOf('localhost') > -1) {
             callback("id");
             return;
         }
@@ -114,7 +114,7 @@ var webapiModule = (function () {
         createRecordReq.send(jsonEntity);
     }
     my.deleteRecord = function (entityid, odatasetname, callback) {
-        if (common.Xrm.get().isLocalhost) {
+        if (common.Xrm.get().isLocalhost && window.location.hostname.indexOf('localhost') > -1) {
             callback();
             return;
         }
@@ -138,7 +138,7 @@ var webapiModule = (function () {
         }
     }
     my.retrieverecord = function (entityid, odatasetname, query, callback) {
-        if (common.Xrm.get().isLocalhost) {
+        if (common.Xrm.get().isLocalhost && window.location.hostname.indexOf('localhost') > -1) {
             callback();
             return;
         }
@@ -161,7 +161,7 @@ var webapiModule = (function () {
         }
     }
     my.retrievemultiplerecords = function (odatasetname, query, callback, oncomplete) {
-        if (common.Xrm.get().isLocalhost) {
+        if (common.Xrm.get().isLocalhost && window.location.hostname.indexOf('localhost') > -1) {
             callback([]);
             return;
         }
