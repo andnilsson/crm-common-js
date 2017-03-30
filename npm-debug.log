@@ -1,0 +1,108 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'C:\\Program Files\\nodejs\\node.exe',
+1 verbose cli   'C:\\Users\\anilsson\\AppData\\Roaming\\npm\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'publish' ]
+2 info using npm@4.0.3
+3 info using node@v6.10.0
+4 verbose publish [ '.' ]
+5 silly cache add args [ '.', null ]
+6 verbose cache add spec .
+7 silly cache add parsed spec Result {
+7 silly cache add   raw: '.',
+7 silly cache add   scope: null,
+7 silly cache add   escapedName: null,
+7 silly cache add   name: null,
+7 silly cache add   rawSpec: '.',
+7 silly cache add   spec: 'C:\\Repos\\crm-common-js',
+7 silly cache add   type: 'directory' }
+8 verbose addLocalDirectory C:\Users\anilsson\AppData\Roaming\npm-cache\crm-common-js\2.6.10\package.tgz not in flight; packing
+9 verbose correctMkdir C:\Users\anilsson\AppData\Roaming\npm-cache correctMkdir not in flight; initializing
+10 info lifecycle crm-common-js@2.6.10~prepublish: crm-common-js@2.6.10
+11 silly lifecycle crm-common-js@2.6.10~prepublish: no script for prepublish, continuing
+12 info lifecycle crm-common-js@2.6.10~prepare: crm-common-js@2.6.10
+13 silly lifecycle crm-common-js@2.6.10~prepare: no script for prepare, continuing
+14 verbose tar pack [ 'C:\\Users\\anilsson\\AppData\\Roaming\\npm-cache\\crm-common-js\\2.6.10\\package.tgz',
+14 verbose tar pack   'C:\\Repos\\crm-common-js' ]
+15 verbose tarball C:\Users\anilsson\AppData\Roaming\npm-cache\crm-common-js\2.6.10\package.tgz
+16 verbose folder C:\Repos\crm-common-js
+17 verbose addLocalTarball adding from inside cache C:\Users\anilsson\AppData\Roaming\npm-cache\crm-common-js\2.6.10\package.tgz
+18 verbose correctMkdir C:\Users\anilsson\AppData\Roaming\npm-cache correctMkdir not in flight; initializing
+19 silly cache afterAdd crm-common-js@2.6.10
+20 verbose afterAdd C:\Users\anilsson\AppData\Roaming\npm-cache\crm-common-js\2.6.10\package\package.json not in flight; writing
+21 verbose correctMkdir C:\Users\anilsson\AppData\Roaming\npm-cache correctMkdir not in flight; initializing
+22 verbose afterAdd C:\Users\anilsson\AppData\Roaming\npm-cache\crm-common-js\2.6.10\package\package.json written
+23 silly publish { name: 'crm-common-js',
+23 silly publish   version: '2.6.10',
+23 silly publish   description: 'a library for common js used inside a dynamics crm environment',
+23 silly publish   main: 'index.js',
+23 silly publish   scripts: { test: 'echo "Error: no test specified" && exit 1' },
+23 silly publish   author: { name: 'Andreas Nilsson' },
+23 silly publish   license: 'ISC',
+23 silly publish   typings: 'crm-common-js.d.ts',
+23 silly publish   readme: '#crm-common-js\nCommon library för att skriva javascript mot crm\nFungerar med es5/es6/es7 och typescript\n\n###installation\n1. Kopiera, git-clona eller intstallera via npm\n2. Ladda upp till dyn365\n##npm\n```\nnpm install crm-common-js --save\n```\n\n##git\n```\ngit clone https://tfs.stratiteq.se/tfs/Stratiteq/Internal/_git/CRM\n```\n\n###Komplett definition av alla funktioner, dess parametrar och returtyper\n[Se typescript definition-filen](https://tfs.stratiteq.se/tfs/Stratiteq/Internal/_git/CRM?path=%2Fcrm-common-js.d.ts&version=GBmaster&_a=contents)\n\n###versioner\nSå småningom kommer en flik med releaser finnas tillgängligt.\nJust nu gör det inte det, och senaste versionen av master kommer att passa till senaste versionen av crm om inget annat sägs\n\n\n###uppbyggnad\nÄr konstruerad i ett antal moduler:\n-common\n  -Xrm\n  -webapi\n  -optionset\n  -fields\n  -form\n  -general\n  -user\n  -adaljs\n  -events\n\nNedan följer förklaringar på övergripande nivå för varje modul\n\n##common\nInnehåller "genvägar" till andra funktioner. Dessa är de funtioner som är mest frekvent använda. Definitionerna ser ut såhär:\n```\nfunction getTab(tabname: string): any;\nfunction getField(fieldname: string): any;\nfunction getWebapiFormattedIdFromLookup(lookupfield: string): string;\nfunction getControl(controlname: string): any;\nfunction getCurrentId(): string;\nfunction setFormNotification(message: string, level: string): void\n```\n\ngetWebapiFormattedIdFromLookup och getCurrentId "tvättar" id-strängen så att den går att använda som queryparameter eller uri i webapit\n\n##Xrm\nhar egentligen bara en metod\n```\ncommon.Xrm.get()\n```\nDetta returnernerar Xrm objectet från crm om det finns tillgängligt.\nDen kollar igenom window, window.opener och window.parent och letar efter Xrm-objectet.\nOm den inte hittar objektet nånstans, kommer den att returnera en mockad instans med de vanligaste funktionerna tillgängliga.\n\nDetta används för att underlätta att köra webbresurser i localhost eftsom man aldrig behöver bry sig om var koden körs, Xrm-funktionalitet är alltid tillgänglig (i mockad variant).\n\nDet mockade xrm-objektet har en property för att indikera om man är i ett crm context eller inte:\n```\ncommon.Xrm.get().isLocalhost\n```\n__Notera att detta faktist inte anger om man är localhost eller inte, utan bara om crm-contextet är tillgängligt__\nVill man veta om man är i localhost eller rekomenderas istället\n```\nwindow.location.hostname\n```\n\n##webapi\nHar metoder för alla operationer mot webapit\nAnvänds såhär för att exempelvis göra en retrieve multiple records\n```\ncommon.webapi.retrievemultiplerecords("accounts", query, (accounts) => {    \n    resolve(accounts);    \n});\n```\n\nVärt att notera:\n*retrievemultiplerecords har inbyggd paginering. Callback kommer att kallas när alla pages är hämtade\n*createrecord kommer att returnera id:t på det skapade objektet. Används propertyn \'returnRepresentation\' kommer hela det skapade objektet att returneras\n\n##optionset\nAnvänds för att manipulera optionsets på formulär\n\n##fields\nAnvänds för fält-specifika operationer\n\naddFieldValidationRule kan användas för validering av inmatade värden. Om valideringsregeln inte är sann kommer det förra tillåtna värdet åter att matas in\n\naddAutocomplete är en genväg för autocomplete:\n[MSDN referens](https://msdn.microsoft.com/en-us/library/mt607648.aspx)\n\n##general\nIcke form eller fält specifika funktioner \n\n##user\nInnehåller bara en funktion som kollar om en användare har någon av de kommaseparerade namngivna roller man skickar in\n\n##adaljs\nAnvänds för att authensiera användaren mot office365. Eftersom användaren redan är inloggad om man gör detta inne i dyn365 kommer användaren bli re-directed till nuvarande sida igen, men man har nu en access token man kan använda för att anropa web-api eller vad man nu vill göra. Config man skickar in som första parameter ser ut såhär:\n```\ninterface adajsconfig {\n    instance: string,\n    tenant: string,\n    clientId: string,\n    postLogoutRedirectUri: string,\n    endpoints: {\n        orgUri: string\n    },\n    cacheLocation: \'localStorage\' // enable this for IE, as sessionStorage does not work for localhost.\n}\n```\n\n##events\nen dictionary av events, som kan raisas on demand\n\nFör events som ska triggas av fältändringar rekomenderas istället standardfunktionalitet:\n``` \ncommon.getField("stq_fieldname").addOnChange(() => {\n\n});\n``` \n\n\n\n',
+23 silly publish   readmeFilename: 'README.md',
+23 silly publish   gitHead: 'd3ec66e0b5f20a75b50fd9341ceee61f0620db07',
+23 silly publish   _id: 'crm-common-js@2.6.10',
+23 silly publish   _shasum: '05f397daa8ba7678e239b51aafc91a9c9b299be1',
+23 silly publish   _from: '.' }
+24 info lifecycle crm-common-js@2.6.10~prepublishOnly: crm-common-js@2.6.10
+25 silly lifecycle crm-common-js@2.6.10~prepublishOnly: no script for prepublishOnly, continuing
+26 verbose getPublishConfig undefined
+27 silly mapToRegistry name crm-common-js
+28 silly mapToRegistry using default registry
+29 silly mapToRegistry registry https://registry.npmjs.org/
+30 silly mapToRegistry data Result {
+30 silly mapToRegistry   raw: 'crm-common-js',
+30 silly mapToRegistry   scope: null,
+30 silly mapToRegistry   escapedName: 'crm-common-js',
+30 silly mapToRegistry   name: 'crm-common-js',
+30 silly mapToRegistry   rawSpec: '',
+30 silly mapToRegistry   spec: 'latest',
+30 silly mapToRegistry   type: 'tag' }
+31 silly mapToRegistry uri https://registry.npmjs.org/crm-common-js
+32 verbose publish registryBase https://registry.npmjs.org/
+33 silly publish uploading C:\Users\anilsson\AppData\Roaming\npm-cache\crm-common-js\2.6.10\package.tgz
+34 verbose request uri https://registry.npmjs.org/crm-common-js
+35 verbose request sending authorization for write operation
+36 info attempt registry request try #1 at 11:56:28
+37 verbose request using bearer token for auth
+38 verbose request id b63043fd49e10fc8
+39 http request PUT https://registry.npmjs.org/crm-common-js
+40 http 403 https://registry.npmjs.org/crm-common-js
+41 verbose headers { 'content-type': 'application/json',
+41 verbose headers   'cache-control': 'max-age=300',
+41 verbose headers   'content-length': '96',
+41 verbose headers   'accept-ranges': 'bytes',
+41 verbose headers   date: 'Wed, 29 Mar 2017 09:56:29 GMT',
+41 verbose headers   via: '1.1 varnish',
+41 verbose headers   connection: 'keep-alive',
+41 verbose headers   'x-served-by': 'cache-bma7023-BMA',
+41 verbose headers   'x-cache': 'MISS',
+41 verbose headers   'x-cache-hits': '0',
+41 verbose headers   'x-timer': 'S1490781388.606116,VS0,VE1261',
+41 verbose headers   vary: 'Accept-Encoding' }
+42 verbose request invalidating C:\Users\anilsson\AppData\Roaming\npm-cache\registry.npmjs.org\crm-common-js on PUT
+43 error publish Failed PUT 403
+44 verbose stack Error: "You cannot publish over the previously published version 2.6.10." : crm-common-js
+44 verbose stack     at makeError (C:\Users\anilsson\AppData\Roaming\npm\node_modules\npm\node_modules\npm-registry-client\lib\request.js:302:12)
+44 verbose stack     at CachingRegistryClient.<anonymous> (C:\Users\anilsson\AppData\Roaming\npm\node_modules\npm\node_modules\npm-registry-client\lib\request.js:290:14)
+44 verbose stack     at Request._callback (C:\Users\anilsson\AppData\Roaming\npm\node_modules\npm\node_modules\npm-registry-client\lib\request.js:210:14)
+44 verbose stack     at Request.self.callback (C:\Users\anilsson\AppData\Roaming\npm\node_modules\npm\node_modules\request\request.js:186:22)
+44 verbose stack     at emitTwo (events.js:106:13)
+44 verbose stack     at Request.emit (events.js:191:7)
+44 verbose stack     at Request.<anonymous> (C:\Users\anilsson\AppData\Roaming\npm\node_modules\npm\node_modules\request\request.js:1081:10)
+44 verbose stack     at emitOne (events.js:96:13)
+44 verbose stack     at Request.emit (events.js:188:7)
+44 verbose stack     at IncomingMessage.<anonymous> (C:\Users\anilsson\AppData\Roaming\npm\node_modules\npm\node_modules\request\request.js:1001:12)
+45 verbose statusCode 403
+46 verbose pkgid crm-common-js
+47 verbose cwd C:\Repos\crm-common-js
+48 error Windows_NT 10.0.10586
+49 error argv "C:\\Program Files\\nodejs\\node.exe" "C:\\Users\\anilsson\\AppData\\Roaming\\npm\\node_modules\\npm\\bin\\npm-cli.js" "publish"
+50 error node v6.10.0
+51 error npm  v4.0.3
+52 error code E403
+53 error "You cannot publish over the previously published version 2.6.10." : crm-common-js
+54 error If you need help, you may report this error at:
+54 error     <https://github.com/npm/npm/issues>
+55 verbose exit [ 1, true ]
