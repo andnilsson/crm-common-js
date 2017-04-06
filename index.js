@@ -619,7 +619,8 @@ if (window.parent.common) {
                                 }
                             },
                             context: {
-                                getClientUrl: function () { return "http://" + window.location.hostname + ":" + window.location.port; }
+                                getClientUrl: function () { return "http://" + window.location.hostname + ":" + window.location.port; },
+                                getUserId: function () { return "userid" }
                             },
                             ui: {
                                 tabs: {
@@ -665,6 +666,9 @@ if (window.parent.common) {
             },
             getField: function (fieldname) {
                 return my.Xrm.get().Page.getAttribute(fieldname);
+            },
+            getUserId: function(){
+                return my.Xrm.get().Page.context.getUserId()
             },
             getWebapiFormattedIdFromLookup: function (lookupfield) {
                 var value = common.getField(lookupfield).getValue();
