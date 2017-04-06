@@ -1,6 +1,7 @@
 export module common {
     function getTab(tabname: string): any;
     function getField(fieldname: string): any;
+    function getUserId(): string;
     function getWebapiFormattedIdFromLookup(lookupfield: string): string;
     function getControl(controlname: string): any;
     function getCurrentId(): string;
