@@ -672,7 +672,7 @@ if (window.parent.common) {
                  if (!value || value.length < 1)
                     return null;
 
-                var id = value[0].id.replace('{', '');
+                var id = value.replace('{', '');
                 return id.replace('}', '');
             },
             getWebapiFormattedIdFromLookup: function (lookupfield) {
