@@ -668,7 +668,12 @@ if (window.parent.common) {
                 return my.Xrm.get().Page.getAttribute(fieldname);
             },
             getUserId: function(){
-                return my.Xrm.get().Page.context.getUserId()
+                var value = my.Xrm.get().Page.context.getUserId();
+                 if (!value || value.length < 1)
+                    return null;
+
+                var id = value[0].id.replace('{', '');
+                return id.replace('}', '');
             },
             getWebapiFormattedIdFromLookup: function (lookupfield) {
                 var value = common.getField(lookupfield).getValue();
