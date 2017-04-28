@@ -1,4 +1,5 @@
 var APIVERSION = "8.2";
+var window = window ? window : { parent: {}};
 
 var eventModule = (function () {
     var my = {};
@@ -626,7 +627,7 @@ if (window.parent.common) {
                                 tabs: {
                                     get: function (tabName) { return {}; }
                                 },
-                                setFormNotification(text,text) {}
+                                setFormNotification(message,level) {}
                             }
                         },
                         Utility: {
