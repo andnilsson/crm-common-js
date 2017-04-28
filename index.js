@@ -625,7 +625,8 @@ if (window.parent.common) {
                             ui: {
                                 tabs: {
                                     get: function (tabName) { return {}; }
-                                }
+                                },
+                                setFormNotification(text,text) {}
                             }
                         },
                         Utility: {
