@@ -1,5 +1,5 @@
 var APIVERSION = "8.2";
-var window = window ? window : { parent: {}};
+var window = window ? window : { parent: {} };
 
 var eventModule = (function () {
     var my = {};
@@ -578,6 +578,7 @@ if (window.parent.common) {
     var common = (function () {
         var _xrm = null;
         var _islocalhost = false;
+        var _fieldvalues = [];
 
         var my = {
             webapi: webapiModule,
@@ -595,8 +596,13 @@ if (window.parent.common) {
                         Page: {
                             getAttribute: function (name) {
                                 return {
-                                    getValue: function () { return "value"; },
-                                    setValue: function (val) { },
+                                    getValue: function () {
+                                        return _fieldvalues[name] ? _fieldvalues[name] : "value";
+                                    },
+                                    setValue: function (val) {
+                                        _fieldvalues[name] = val;
+                                        my.events.raise(name);
+                                    },
                                     addOnChange: function (e) {
                                         my.events.subscribe(name, e);
                                     },
@@ -669,9 +675,9 @@ if (window.parent.common) {
             getField: function (fieldname) {
                 return my.Xrm.get().Page.getAttribute(fieldname);
             },
-            getUserId: function(){
+            getUserId: function () {
                 var value = my.Xrm.get().Page.context.getUserId();
-                 if (!value || value.length < 1)
+                if (!value || value.length < 1)
                     return null;
 
                 var id = value.replace('{', '');
