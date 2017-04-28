@@ -627,7 +627,7 @@ if (window.parent.common) {
                                 tabs: {
                                     get: function (tabName) { return {}; }
                                 },
-                                setFormNotification(message,level) {}
+                                setFormNotification: function (message, level) { console.log(message); }
                             }
                         },
                         Utility: {
