@@ -305,12 +305,16 @@ var fieldsModule = (function () {
         common.Xrm.get().Page.getControl(fieldname).setVisible(false);
     }
     my.addFieldValidationRule = function (field, rule) {
-        my.oldvalues[field] = common.Xrm.get().Page.getAttribute(field).getValue();
-        common.Xrm.get().Page.getAttribute(field).addOnChange(function (e) {
-            if (e.getEventSource().getValue() && !rule(e.getEventSource().getValue())) {
-                e.getEventSource().setValue(my.oldvalues[e.getEventSource().getName()]);
-            } else {
-                my.oldvalues[e.getEventSource().getName()] = e.getEventSource().getValue();
+        my.oldvalues[field] = common.getField(field).getValue();
+
+        common.getField(field).addOnChange(function () {
+            var oldvalue = my.oldvalues[field];
+            var newvalue = common.getField(field).getValue();
+            if (!rule(oldvalue)) oldvalue = null;
+            if (!rule(newvalue))
+                common.getField(field).setValue(oldvalue);
+            else {
+                my.oldvalues[field] = newvalue;
             }
         });
     }
@@ -578,7 +582,7 @@ if (window.parent.common) {
     var common = (function () {
         var _xrm = null;
         var _islocalhost = false;
-        var _fieldvalues = [];
+        var _fieldvalues = {};
 
         var my = {
             webapi: webapiModule,
@@ -597,7 +601,8 @@ if (window.parent.common) {
                             getAttribute: function (name) {
                                 return {
                                     getValue: function () {
-                                        return _fieldvalues[name] ? _fieldvalues[name] : "value";
+                                        var x = _fieldvalues[name] !== undefined ? _fieldvalues[name] : "value";
+                                        return x; 
                                     },
                                     setValue: function (val) {
                                         _fieldvalues[name] = val;
