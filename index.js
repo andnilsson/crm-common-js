@@ -453,7 +453,10 @@ var generalModule = (function () {
         return dateValue;
     }
     my.getRequestObject = function () {
-        if (window.XMLHttpRequest) {
+        if(XMLHttpRequest) {
+            return new XMLHttpRequest();
+        }
+        else if (window.XMLHttpRequest) {
             return new window.XMLHttpRequest;
         }
         else {
