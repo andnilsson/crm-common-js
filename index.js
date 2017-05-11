@@ -453,7 +453,7 @@ var generalModule = (function () {
         return dateValue;
     }
     my.getRequestObject = function () {
-        if(XMLHttpRequest) {
+        if (XMLHttpRequest) {
             return new XMLHttpRequest();
         }
         else if (window.XMLHttpRequest) {
@@ -605,7 +605,7 @@ if (window.parent.common) {
                                 return {
                                     getValue: function () {
                                         var x = _fieldvalues[name] !== undefined ? _fieldvalues[name] : "value";
-                                        return x; 
+                                        return x;
                                     },
                                     setValue: function (val) {
                                         _fieldvalues[name] = val;
@@ -641,7 +641,8 @@ if (window.parent.common) {
                                 tabs: {
                                     get: function (tabName) { return {}; }
                                 },
-                                setFormNotification: function (message, level) { console.log(message); }
+                                setFormNotification: function (message, level, id) { console.log(message); },
+                                clearFormNotification: function (id) { return true }
                             }
                         },
                         Utility: {
