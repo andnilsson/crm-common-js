@@ -711,8 +711,8 @@ if (window.parent.common) {
                 id = id.replace('}', '');
                 return id;
             },
-            setFormNotification: function (message, level) {
-                common.Xrm.get().Page.ui.setFormNotification(message, level);
+            setFormNotification: function (message, level, id) {
+                common.Xrm.get().Page.ui.setFormNotification(message, level, id);
             },
         }
 
