@@ -5,7 +5,7 @@ export module common {
     function getWebapiFormattedIdFromLookup(lookupfield: string): string;
     function getControl(controlname: string): any;
     function getCurrentId(): string;
-    function setFormNotification(message: string, level: string): void
+    function setFormNotification(message: string, level: string, id?: string): void
 
     export module Xrm {
         function get(): Xrm;
