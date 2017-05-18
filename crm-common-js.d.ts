@@ -47,6 +47,7 @@ export module common {
         function showSection(tabName: string, sectionName: string): void;
         function hideSection(tabName: string, sectionName: string): void;
         function openEntityForm(entitytype: string, id: string): void;
+        function setNavigationVisible (relationshipname:string, setVisible:boolean):void;
     }
     export module general {
         function guidsAreEqual(guid1: string, guid2: string): boolean;
