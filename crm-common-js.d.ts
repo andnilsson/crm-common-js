@@ -24,7 +24,7 @@ export module common {
         function addOption(attribute: string, value: number, index: number): void;
         function removeOption(attribute: string, value: number): void;
         function clearOptions(attribute: string): void;
-        function setOptionSetValues(attribute: string, currentValue: number, oAvailableArray: [number], optionalControlAttribute?: string): void;
+        function setOptionSetValues(attribute: string, currentValue: number, oAvailableArray: number[], optionalControlAttribute?: string): void;
     }
     export module fields {
         function SetLookupValue(fieldName: string, id: string, name: string, entityType: string): void;
