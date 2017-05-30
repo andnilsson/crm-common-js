@@ -224,7 +224,7 @@ var optionsetModule = (function () {
     }
     my.setOptionSetValues = function (attribute, currentValue, oAvailableArray, optionalControlAttribute) {
 
-        if (optionalControlAttribute === null)
+        if (!optionalControlAttribute)
             optionalControlAttribute = attribute;
 
         var oSubPicklist = common.Xrm.get().Page.getControl(optionalControlAttribute);

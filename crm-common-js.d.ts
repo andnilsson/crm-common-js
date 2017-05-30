@@ -24,7 +24,7 @@ export module common {
         function addOption(attribute: string, value: number, index: number): void;
         function removeOption(attribute: string, value: number): void;
         function clearOptions(attribute: string): void;
-        function setOptionSetValues(attribute: string, currentValue: number, oAvailableArray: [number], optionalControlAttribute?: string): void;
+        function setOptionSetValues(attribute: string, currentValue: number, oAvailableArray: number[], optionalControlAttribute?: string): void;
     }
     export module fields {
         function SetLookupValue(fieldName: string, id: string, name: string, entityType: string): void;
@@ -47,6 +47,7 @@ export module common {
         function showSection(tabName: string, sectionName: string): void;
         function hideSection(tabName: string, sectionName: string): void;
         function openEntityForm(entitytype: string, id: string): void;
+        function setNavigationVisible (relationshipname:string, setVisible:boolean):void;
     }
     export module general {
         function guidsAreEqual(guid1: string, guid2: string): boolean;
