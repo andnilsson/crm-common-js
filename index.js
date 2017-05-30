@@ -151,7 +151,7 @@ var webapiModule = (function () {
             service.setRequestHeader("Accept", "application/json");
             service.setRequestHeader("Content-Type", "application/json; charset=utf-8");
             if (includeFormattedValues)
-                req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+                service.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
             service.onreadystatechange = function () {
                 if (this.readyState === 4) {
                     service.onreadystatechange === null;
@@ -191,7 +191,7 @@ var webapiModule = (function () {
             service.setRequestHeader("Accept", "application/json");
             service.setRequestHeader("Content-Type", "application/json; charset=utf-8");
             if (includeFormattedValues)
-                req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+                service.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
             service.onreadystatechange = function () {
                 if (this.readyState === 4) {
                     service.onreadystatechange = null;
