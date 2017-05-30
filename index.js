@@ -138,7 +138,7 @@ var webapiModule = (function () {
             service.send();
         }
     }
-    my.retrieverecord = function (entityid, odatasetname, query, callback) {
+    my.retrieverecord = function (entityid, odatasetname, query, callback, includeFormattedValues) {
         if (common.Xrm.get().isLocalhost && window.location.hostname.indexOf('localhost') > -1) {
             callback();
             return;
@@ -150,6 +150,8 @@ var webapiModule = (function () {
             service.open("GET", encodeURI(oDataEndpointUrl), true);
             service.setRequestHeader("Accept", "application/json");
             service.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+            if (includeFormattedValues)
+                req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
             service.onreadystatechange = function () {
                 if (this.readyState === 4) {
                     service.onreadystatechange === null;
@@ -161,11 +163,21 @@ var webapiModule = (function () {
             service.send(null);
         }
     }
-    my.retrievemultiplerecords = function (odatasetname, query, callback, oncomplete) {
+    my.retrievemultiplerecords = function (odatasetname, query, callback, includeFormattedValues) {
         if (common.Xrm.get().isLocalhost && window.location.hostname.indexOf('localhost') > -1) {
             callback([]);
             return;
-        }
+        }        
+        var data = [];
+
+        retrievemultipleInternal(odatasetname, query, function(response) {
+            data = data.concat(response);
+        }, includeFormattedValues, function(){
+            callback(data);
+        }, data);
+    }
+
+    function retrievemultipleInternal(odatasetname, query, callback, includeFormattedValues, oncomplete, data) {
         if (odatasetname === null) {
             var oDataEndpointUrl = query;
         } else {
@@ -178,14 +190,16 @@ var webapiModule = (function () {
             service.open("GET", encodeURI(oDataEndpointUrl), true);
             service.setRequestHeader("Accept", "application/json");
             service.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+            if (includeFormattedValues)
+                req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
             service.onreadystatechange = function () {
                 if (this.readyState === 4) {
                     service.onreadystatechange = null;
                     if (this.status === 200) {
                         var returned = JSON.parse(this.responseText).value;
                         callback(returned);
-                        if (returned.__next !== null && oncomplete !== null) {
-                            common.webapi.retrievemultiplerecords(null, decodeURI(returned.__next), callback, oncomplete);
+                        if (returned.__next && oncomplete) {
+                            retrievemultipleInternal(null, decodeURI(returned.__next), callback, oncomplete);
                         }
                         else { try { oncomplete(); } catch (e) { } }
                     }

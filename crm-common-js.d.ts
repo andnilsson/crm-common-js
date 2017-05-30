@@ -16,8 +16,8 @@ export module common {
         function updaterecordsingleproperty(entityid: string, propertyname: string, value: any, odatasetname: string, callback: (data: any) => void): void
         function createrecord(entityObject: any, odataSetName: string, callback: (data: any) => void, returnRepresentation?: boolean, errorcallback?: (data: any) => void): void
         function deleteRecord(entityid: string, odatasetname: string, callback: (data: any) => void): void
-        function retrieverecord(entityid: string, odatasetname: string, query: string, callback: (data: any) => void): void
-        function retrievemultiplerecords(odatasetname: string, query: string, callback: (data: any) => void, oncomplete?: () => void): void
+        function retrieverecord(entityid: string, odatasetname: string, query: string, callback: (data: any) => void, includeFormattedValues: boolean = false): void
+        function retrievemultiplerecords(odatasetname: string, query: string, callback: (data: any) => void, includeFormattedValues: boolean = false): void
     }
 
     export module optionset {
