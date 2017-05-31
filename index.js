@@ -422,6 +422,16 @@ var formModule = (function () {
             }
         }
     }
+    my.tabDisable = function (tabControlNo, disablestatus) {
+        var tabControl = Xrm.Page.ui.tabs.get(tabControlNo);
+        if (tabControl != null) {
+            common.Xrm.get().Page.ui.controls.forEach(function (control, index) {
+                if (control.getParent().getParent() == tabControl && control.getControlType() != "subgrid") {
+                    control.setDisabled(disablestatus);
+                }
+            });
+        }
+    }
     my.setNavigationVisible = function (relationshipname, setVisible) {
         common.Xrm.get().Page.ui.navigation.items.get(relationshipname).setVisible(setVisible);
     }

@@ -44,6 +44,7 @@ export module common {
         function hideTab(tabName: string): void;
         function showTab(tabName: string): void;
         function sectionDisable(sectionname: string, disablestatus: boolean): void;
+        function tabDisable(tabControlNo: string, disablestatus: boolean): void;
         function showSection(tabName: string, sectionName: string): void;
         function hideSection(tabName: string, sectionName: string): void;
         function openEntityForm(entitytype: string, id: string): void;
