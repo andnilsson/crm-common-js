@@ -167,12 +167,12 @@ var webapiModule = (function () {
         if (common.Xrm.get().isLocalhost && window.location.hostname.indexOf('localhost') > -1) {
             callback([]);
             return;
-        }        
+        }
         var data = [];
 
-        retrievemultipleInternal(odatasetname, query, function(response) {
+        retrievemultipleInternal(odatasetname, query, function (response) {
             data = data.concat(response);
-        }, includeFormattedValues, function(){
+        }, includeFormattedValues, function () {
             callback(data);
         }, data);
     }
@@ -293,11 +293,9 @@ var fieldsModule = (function () {
         var controlType = control.getControlType();
         return controlType !== "iframe" && controlType !== "webresource" && controlType !== "subgrid";
     }
-    my.disableAllFields = function () {
-        common.Xrm.get().Page.ui.controls.forEach(function (control, index) {
-            if (doesControlHaveAttribute(control)) {
-                control.setDisabled(true);
-            }
+    my.disableAllFields = function (setdisabled) {
+        common.Xrm.get().Page.ui.getTabs().forEach(function (tabControl) {
+            formModule.tabDisable(tabControl.getName(), setdisabled);
         });
     }
     my.alertTheDirtyOnes = function () {
@@ -395,6 +393,7 @@ var formModule = (function () {
                         control.setFocus();
                     }
                     valid = false;
+                    
                 }
             }
         });
@@ -413,22 +412,23 @@ var formModule = (function () {
         }
     }
     my.sectionDisable = function (sectionname, disablestatus) {
-        var ctrlName = common.Xrm.get().Page.ui.controls.get();
-        for (var i in ctrlName) {
-            var ctrl = ctrlName[i];
-            var ctrlSection = ctrl.getParent().getName();
-            if (ctrlSection === sectionname) {
-                ctrl.setDisabled(disablestatus);
-            }
-        }
+        common.Xrm.get().Page.ui.tabs.get().forEach(function (tabControl) {
+            tabControl.sections.forEach(function (section) {
+                if (section.getName() == "sectionname") {
+                    section.forEach(function (control) {
+                        if (control.doesControlHaveAttribute(control)) {
+                            control.setDisabled(disablestatus);
+                        }
+                    })
+                }
+            });
+        });
     }
     my.tabDisable = function (tabControlNo, disablestatus) {
         var tabControl = Xrm.Page.ui.tabs.get(tabControlNo);
         if (tabControl != null) {
-            common.Xrm.get().Page.ui.controls.forEach(function (control, index) {
-                if (control.getParent().getParent() == tabControl && control.getControlType() != "subgrid") {
-                    control.setDisabled(disablestatus);
-                }
+            tabControl.sections.forEach(function (control) {
+                my.sectionDisable(control.getName(), disablestatus)
             });
         }
     }

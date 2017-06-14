@@ -30,7 +30,7 @@ export module common {
         function SetLookupValue(fieldName: string, id: string, name: string, entityType: string): void;
         function forceSubmitAllDirtyAttributes(input: string): void;
         function doesControlHaveAttribute(control: string): boolean;
-        function disableAllFields(): void;
+        function disableAllFields(setdisabled:boolean): void;
         function alertTheDirtyOnes(): void;
         function hideField(fieldname: string): void;
         function showField(fieldname: string): void;
