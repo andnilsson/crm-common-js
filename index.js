@@ -314,7 +314,7 @@ var fieldsModule = (function () {
         common.Xrm.get().Page.getControl(fieldname).setVisible(false);
     }
     my.showField = function (fieldname) {
-        common.Xrm.get().Page.getControl(fieldname).setVisible(false);
+        common.Xrm.get().Page.getControl(fieldname).setVisible(true);
     }
     my.addFieldValidationRule = function (field, rule) {
         my.oldvalues[field] = common.getField(field).getValue();
