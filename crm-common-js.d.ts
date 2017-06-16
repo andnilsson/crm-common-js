@@ -5,7 +5,6 @@ export module common {
     function getWebapiFormattedIdFromLookup(lookupfield: string): string;
     function getControl(controlname: string): any;
     function getCurrentId(): string;
-    function setFormNotification(message: string, level: string, id?: string): void
 
     export module Xrm {
         function get(): Xrm;
@@ -49,6 +48,8 @@ export module common {
         function hideSection(tabName: string, sectionName: string): void;
         function openEntityForm(entitytype: string, id: string): void;
         function setNavigationVisible (relationshipname:string, setVisible:boolean):void;
+        function setFormNotification(message: string, level: string, id: string): void;
+        function clearFormNotification(id: string): void;
     }
     export module general {
         function guidsAreEqual(guid1: string, guid2: string): boolean;

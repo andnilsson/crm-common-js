@@ -393,7 +393,7 @@ var formModule = (function () {
                         control.setFocus();
                     }
                     valid = false;
-                    
+
                 }
             }
         });
@@ -414,9 +414,9 @@ var formModule = (function () {
     my.sectionDisable = function (sectionname, disablestatus) {
         common.Xrm.get().Page.ui.tabs.get().forEach(function (tabControl) {
             tabControl.sections.forEach(function (section) {
-                if (section.getName() == "sectionname") {
-                    section.forEach(function (control) {
-                        if (control.doesControlHaveAttribute(control)) {
+                if (section.getName() == sectionname) {
+                    section.controls.forEach(function (control) {
+                        if (fieldsModule.doesControlHaveAttribute(control)) {
                             control.setDisabled(disablestatus);
                         }
                     })
@@ -424,14 +424,20 @@ var formModule = (function () {
             });
         });
     }
+
     my.tabDisable = function (tabControlNo, disablestatus) {
-        var tabControl = Xrm.Page.ui.tabs.get(tabControlNo);
+        var tabControl = common.Xrm.get().Page.ui.tabs.get(tabControlNo);
         if (tabControl != null) {
-            tabControl.sections.forEach(function (control) {
-                my.sectionDisable(control.getName(), disablestatus)
+            tabControl.sections.forEach(function (section) {
+                section.controls.forEach(function (control) {
+                    if (fieldsModule.doesControlHaveAttribute(control)) {
+                        control.setDisabled(disablestatus);
+                    }
+                })
             });
         }
     }
+
     my.setNavigationVisible = function (relationshipname, setVisible) {
         common.Xrm.get().Page.ui.navigation.items.get(relationshipname).setVisible(setVisible);
     }
@@ -449,6 +455,12 @@ var formModule = (function () {
     }
     my.openEntityForm = function (entitytype, id) {
         common.Xrm.get().Utility.openEntityForm(entitytype, id);
+    }
+    my.setFormNotification = function (message, level, id) {
+        common.Xrm.get().Page.ui.setFormNotification(message, level, id);
+    }
+    my.clearFormNotification = function (id) {
+        common.Xrm.get().Page.ui.clearFormNotification(id);
     }
     return my;
 })();
@@ -735,8 +747,8 @@ if (window.parent.common) {
                 id = id.replace('}', '');
                 return id;
             },
-            setFormNotification: function (message, level, id) {
-                common.Xrm.get().Page.ui.setFormNotification(message, level, id);
+            clearFormNotificationarForm: function (id) {
+                common.Xrm.get().Page.ui.clearFormNotification(id);
             },
         }
 
