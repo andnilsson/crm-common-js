@@ -25,12 +25,19 @@ var eventModule = (function () {
     return my;
 })();
 var webapiModule = (function () {
+    var getFormattedEntityId = function (entityid) {
+        if (entityid) {
+            return entityid.replace("{", "").replace("}", "");
+        }
+        return entityid;
+    }
     var my = {};
     my.updaterecord = function (entityid, entityobject, odatasetname, callback) {
         if (common.Xrm.get().isLocalhost && window.location.hostname.indexOf('localhost') > -1) {
             callback();
             return;
         }
+        entityid = getFormattedEntityId(entityid);
         var oDataEndpointUrl = common.general.getODataEndPoint();
         oDataEndpointUrl += "/" + odatasetname + "(" + entityid + ")";
         var service = common.general.getRequestObject();
@@ -55,6 +62,7 @@ var webapiModule = (function () {
             callback();
             return;
         }
+        entityid = getFormattedEntityId(entityid);
         var oDataEndpointUrl = common.general.getODataEndPoint();
         oDataEndpointUrl += "/" + odatasetname + "(" + entityid + ")/" + propertyname;
         var service = common.general.getRequestObject();
@@ -119,6 +127,7 @@ var webapiModule = (function () {
             callback();
             return;
         }
+        entityid = getFormattedEntityId(entityid);
         var oDataEndpointUrl = common.general.getODataEndPoint();
         oDataEndpointUrl += "/" + odatasetname + "(" + entityid + ")";
         var service = common.general.getRequestObject();
@@ -143,6 +152,7 @@ var webapiModule = (function () {
             callback();
             return;
         }
+        entityid = getFormattedEntityId(entityid);
         var oDataEndpointUrl = common.general.getODataEndPoint();
         oDataEndpointUrl += "/" + odatasetname + "(" + entityid + ")" + query;
         var service = common.general.getRequestObject()

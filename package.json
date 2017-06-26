@@ -1,6 +1,6 @@
 {
   "name": "crm-common-js",
-  "version": "2.6.32",
+  "version": "2.6.33",
   "description": "a library for common js used inside a dynamics crm environment",
   "main": "index.js",
   "scripts": {
