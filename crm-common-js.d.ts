@@ -5,7 +5,8 @@ export module common {
     function getWebapiFormattedIdFromLookup(lookupfield: string): string;
     function getControl(controlname: string): any;
     function getCurrentId(): string;
-
+    function setCustomLogic(logicObj:any): void;
+    function getCustomLogic(): any;
     export module Xrm {
         function get(): Xrm;
     }

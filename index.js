@@ -757,6 +757,12 @@ if (window.parent.common) {
                 id = id.replace('}', '');
                 return id;
             },
+            setCustomLogic:function(logicObj){
+                my.Xrm.get().customLogic = logicObj;
+            },
+            getCustomLogic:function(){
+                return my.Xrm.get().customLogic;
+            },
             clearFormNotificationarForm: function (id) {
                 common.Xrm.get().Page.ui.clearFormNotification(id);
             },
