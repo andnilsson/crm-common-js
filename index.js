@@ -27,7 +27,8 @@ var eventModule = (function () {
 var webapiModule = (function () {
     var getFormattedEntityId = function (entityid) {
         if (entityid) {
-            return entityid.replace("{", "").replace("}", "");
+            entityid = entityid.replace("{", "").replace("}", "");
+            return entityid.toUpperCase();
         }
         return entityid;
     }
@@ -279,6 +280,13 @@ var fieldsModule = (function () {
     };
     my.SetLookupValue = function (fieldName, id, name, entityType) {
         if (fieldName !== null) {
+
+            if (id.indexOf('{') == -1)
+                id = '{' + id;
+            if (id.indexOf('}') == -1)
+                id = id + '}';
+
+            id = id.toUpperCase();
             var lookupValue = new Array();
             lookupValue[0] = new Object();
             lookupValue[0].id = id;
@@ -757,10 +765,10 @@ if (window.parent.common) {
                 id = id.replace('}', '');
                 return id;
             },
-            setCustomLogic:function(logicObj){
+            setCustomLogic: function (logicObj) {
                 my.Xrm.get().customLogic = logicObj;
             },
-            getCustomLogic:function(){
+            getCustomLogic: function () {
                 return my.Xrm.get().customLogic;
             },
             clearFormNotificationarForm: function (id) {
