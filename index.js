@@ -245,6 +245,7 @@ var optionsetModule = (function () {
         else {
             oSubPicklist.Options = oSubPicklist.originalPicklistValues;
         }
+
         oSubPicklist.clearOptions();
 
         if (oAvailableArray.length > 0) {
@@ -329,10 +330,14 @@ var fieldsModule = (function () {
         alert("Dessa e dirty: " + attributeList);
     }
     my.hideField = function (fieldname) {
-        common.Xrm.get().Page.getControl(fieldname).setVisible(false);
+        setTimeout(function (fname) {
+            common.Xrm.get().Page.getControl(fname).setVisible(false);
+        }, 1, fieldname);
     }
     my.showField = function (fieldname) {
-        common.Xrm.get().Page.getControl(fieldname).setVisible(true);
+        setTimeout(function (fname) {
+            common.Xrm.get().Page.getControl(fname).setVisible(true);
+        }, 1, fieldname);
     }
     my.addFieldValidationRule = function (field, rule) {
         my.oldvalues[field] = common.getField(field).getValue();
@@ -462,13 +467,17 @@ var formModule = (function () {
     my.showSection = function (tabName, sectionName) {
         var tab = common.Xrm.get().Page.ui.tabs.get(tabName);
         if (tab !== null) {
-            tab.sections.get(sectionName).setVisible(true);
+            setTimeout(function (tabx, sectionx) {
+                tabx.sections.get(sectionx).setVisible(true);
+            }, 1, tab, sectionName);
         }
     }
     my.hideSection = function (tabName, sectionName) {
         var tab = common.Xrm.get().Page.ui.tabs.get(tabName);
         if (tab !== null) {
-            tab.sections.get(sectionName).setVisible(false);
+            setTimeout(function (tabx, sectionx) {
+                tabx.sections.get(sectionx).setVisible(false);
+            }, 1, tab, sectionName);
         }
     }
     my.openEntityForm = function (entitytype, id) {
