@@ -42,7 +42,7 @@ var webapiModule = (function () {
         var oDataEndpointUrl = common.general.getODataEndPoint();
         oDataEndpointUrl += "/" + odatasetname + "(" + entityid + ")";
         var service = common.general.getRequestObject();
-        var jsonEntity = window.JSON.stringify(entityobject);
+        var jsonEntity = JSON.stringify(entityobject);
         if (service !== null) {
             service.open("PATCH", encodeURI(oDataEndpointUrl), true);
             service.setRequestHeader("Accept", "application/json");
