@@ -42,6 +42,7 @@ var webapiModule = (function () {
         var oDataEndpointUrl = common.general.getODataEndPoint();
         oDataEndpointUrl += "/" + odatasetname + "(" + entityid + ")";
         var service = common.general.getRequestObject();
+
         var jsonEntity = JSON.stringify(entityobject);
         if (service !== null) {
             service.open("PATCH", encodeURI(oDataEndpointUrl), true);
@@ -329,15 +330,18 @@ var fieldsModule = (function () {
         }
         alert("Dessa e dirty: " + attributeList);
     }
-    my.hideField = function (fieldname) {
-        setTimeout(function (fname) {
-            common.Xrm.get().Page.getControl(fname).setVisible(false);
-        }, 1, fieldname);
+    my.setVisible = function (fieldname, visible) {
+        var control = common.Xrm.get().Page.getControl(fieldname);
+        var isparentvisible = control.getParent().getVisible();
+        common.Xrm.get().Page.getControl(fieldname).setVisible(visible);
+        if (!isparentvisible)
+            control.getParent().setVisible(isparentvisible);
     }
-    my.showField = function (fieldname) {
-        setTimeout(function (fname) {
-            common.Xrm.get().Page.getControl(fname).setVisible(true);
-        }, 1, fieldname);
+    my.hideField = function (fieldname) {//remove once clean
+        my.setVisible(fieldname,false);
+    }
+    my.showField = function (fieldname) {//remove once clean
+        my.setVisible(fieldname,true);
     }
     my.addFieldValidationRule = function (field, rule) {
         my.oldvalues[field] = common.getField(field).getValue();
@@ -467,17 +471,13 @@ var formModule = (function () {
     my.showSection = function (tabName, sectionName) {
         var tab = common.Xrm.get().Page.ui.tabs.get(tabName);
         if (tab !== null) {
-            setTimeout(function (tabx, sectionx) {
-                tabx.sections.get(sectionx).setVisible(true);
-            }, 1, tab, sectionName);
+            tab.sections.get(sectionName).setVisible(true);
         }
     }
     my.hideSection = function (tabName, sectionName) {
         var tab = common.Xrm.get().Page.ui.tabs.get(tabName);
         if (tab !== null) {
-            setTimeout(function (tabx, sectionx) {
-                tabx.sections.get(sectionx).setVisible(false);
-            }, 1, tab, sectionName);
+            tab.sections.get(sectionName).setVisible(false);
         }
     }
     my.openEntityForm = function (entitytype, id) {

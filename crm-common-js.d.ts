@@ -34,6 +34,7 @@ export module common {
         function alertTheDirtyOnes(): void;
         function hideField(fieldname: string): void;
         function showField(fieldname: string): void;
+        function setVisible(fieldname: string, visible: boolean): void; 
         function addFieldValidationRule(field: string, rule: (value: any) => boolean): void;
         function addNotification(field: string, text: string): void;
         function clearNofification(field: string): void;
