@@ -263,10 +263,7 @@ var optionsetModule = (function () {
             oSubPicklist.setDisabled(false);
             if (currentValue !== null) {
                 common.Xrm.get().Page.getAttribute(attribute).setValue(currentValue);
-            }
-            else {
-                common.Xrm.get().Page.getAttribute(attribute).setValue(null);
-            }
+            }            
         }
         else {
             oSubPicklist.setDisabled(true);
