@@ -1,5 +1,4 @@
 var APIVERSION = "8.2";
-var window = window ? window : { parent: {} };
 
 var eventModule = (function () {
     var my = {};
@@ -34,10 +33,7 @@ var webapiModule = (function () {
     }
     var my = {};
     my.updaterecord = function (entityid, entityobject, odatasetname, callback) {
-        if (common.Xrm.get().isLocalhost && window.location.hostname.indexOf('localhost') > -1) {
-            callback();
-            return;
-        }
+        
         entityid = getFormattedEntityId(entityid);
         var oDataEndpointUrl = common.general.getODataEndPoint();
         oDataEndpointUrl += "/" + odatasetname + "(" + entityid + ")";
@@ -60,10 +56,7 @@ var webapiModule = (function () {
         }
     }
     my.updaterecordsingleproperty = function (entityid, propertyname, value, odatasetname, callback) {
-        if (common.Xrm.get().isLocalhost && window.location.hostname.indexOf('localhost') > -1) {
-            callback();
-            return;
-        }
+        
         entityid = getFormattedEntityId(entityid);
         var oDataEndpointUrl = common.general.getODataEndPoint();
         oDataEndpointUrl += "/" + odatasetname + "(" + entityid + ")/" + propertyname;
@@ -89,10 +82,7 @@ var webapiModule = (function () {
         }
     }
     my.createrecord = function (entityObject, odataSetName, callback, returnRepresentation, errorcallback) {
-        if (common.Xrm.get().isLocalhost && window.location.hostname.indexOf('localhost') > -1) {
-            callback("id");
-            return;
-        }
+        
         var jsonEntity = window.JSON.stringify(entityObject);
         var ODATA_ENDPOINT = common.general.getODataEndPoint();
         var createRecordReq = common.general.getRequestObject();
@@ -125,23 +115,20 @@ var webapiModule = (function () {
         createRecordReq.send(jsonEntity);
     }
     my.deleteRecord = function (entityid, odatasetname, callback) {
-        if (common.Xrm.get().isLocalhost && window.location.hostname.indexOf('localhost') > -1) {
-            callback();
-            return;
-        }
+       
         entityid = getFormattedEntityId(entityid);
         var oDataEndpointUrl = common.general.getODataEndPoint();
         oDataEndpointUrl += "/" + odatasetname + "(" + entityid + ")";
         var service = common.general.getRequestObject();
         if (service !== null) {
-            service.open("POST", encodeURI(oDataEndpointUrl), true);
+            service.open("DELETE", encodeURI(oDataEndpointUrl), true);
             service.setRequestHeader("Accept", "application/json");
             service.setRequestHeader("Content-Type", "application/json; charset=utf-8");
             service.setRequestHeader("X-HTTP-Method", "DELETE");
             service.onreadystatechange = function () {
                 if (this.readyState === 4) {
                     service.onreadystatechange = null;
-                    if (this.status === 201 || this.status === 1223) {
+                    if (this.status === 201 || this.status === 1223 || this.status === 204) {
                         callback();
                     }
                 }
@@ -150,10 +137,7 @@ var webapiModule = (function () {
         }
     }
     my.retrieverecord = function (entityid, odatasetname, query, callback, includeFormattedValues) {
-        if (common.Xrm.get().isLocalhost && window.location.hostname.indexOf('localhost') > -1) {
-            callback();
-            return;
-        }
+        
         entityid = getFormattedEntityId(entityid);
         var oDataEndpointUrl = common.general.getODataEndPoint();
         oDataEndpointUrl += "/" + odatasetname + "(" + entityid + ")" + query;
@@ -176,10 +160,7 @@ var webapiModule = (function () {
         }
     }
     my.retrievemultiplerecords = function (odatasetname, query, callback, includeFormattedValues) {
-        if (common.Xrm.get().isLocalhost && window.location.hostname.indexOf('localhost') > -1) {
-            callback([]);
-            return;
-        }
+        
         var data = [];
 
         retrievemultipleInternal(odatasetname, query, function (response) {
