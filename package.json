@@ -6,6 +6,10 @@
   "scripts": {
     "test": "mocha"
   },
+  "repository": {	
+    "type": "git",
+    "url": "https://github.com/andnilsson/crm-common-js.git"
+  },
   "author": "Andreas Nilsson",
   "license": "ISC",
   "typings": "crm-common-js.d.ts",
